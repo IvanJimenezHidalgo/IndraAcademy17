@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 @Entity
@@ -15,12 +16,18 @@ public class Alumno {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //autoinc en mysql
-	private Long id;
+	private Long id;//CLAVE PRIMARY 
 	
 	private String nombre;
 	private String apellido;
 	private String email;
 	private int edad;
+	
+	@PrePersist//antes que se inserte un alumno en base datos, se ejecuta el método así anotado
+	private void generarFechaCreacion ()
+	{
+		this.creadoEn = new Date();//obtengo la fecha actual
+	}
 	
 	@Column(name = "creado_en")
 	private Date creadoEn;
@@ -77,5 +84,23 @@ public class Alumno {
 	public Alumno() {
 		// TODO Auto-generated constructor stub
 	}
+
+	public Alumno(Long id, String nombre, String apellido, String email, int edad, Date creadoEn) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.edad = edad;
+		this.creadoEn = creadoEn;
+	}
+
+	@Override
+	public String toString() {
+		return "Alumno [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", edad="
+				+ edad + ", creadoEn=" + creadoEn + "]";
+	}
+	
+	
 
 }
