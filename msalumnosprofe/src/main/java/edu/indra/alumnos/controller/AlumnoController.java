@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,8 @@ public class AlumnoController {
 	@Autowired
 	AlumnoService alumnoService;
 	
+	Logger log = LoggerFactory.getLogger(AlumnoController.class);
+	
 	//OBTENER TODOS LOS ALUMNOS -get x
 	//OBTENER UN ALUMNO POR ID -get x
 	//INSERTAR ALUMNO - post x
@@ -42,6 +46,7 @@ public class AlumnoController {
 	{
 		Alumno alumno = null;
 		
+				log.debug("en obtenerAlumnoTest ()");
 				alumno = new Alumno(1l, "Vale", "Moreno", "vale@gmail.es", 38, new Date());//TRANSIENT
 		
 		return alumno;
@@ -86,6 +91,9 @@ public class AlumnoController {
 		List<ObjectError> lista_errores = null;
 		
 			lista_errores =  bindingResult.getAllErrors();
+			lista_errores.forEach(o_error -> {
+					log.error(o_error.toString());
+					});
 			responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(lista_errores);
 		
 		return responseEntity;
@@ -98,12 +106,18 @@ public class AlumnoController {
 		ResponseEntity<?> responseEntity = null;
 		Alumno alumno_creado = null;
 		
+			//TODO validación de negocio 
+			log.debug("en insertarAlumno");
+		
 			if (bindingResult.hasErrors())
 			{
 				//el alumno trae errores
+				log.debug("el alumno trae errores " +alumno);
 				responseEntity = obtenerErrores (bindingResult);
+				
 			} else {
 				//alumno sin errores
+				log.debug("alumno sin errores " +alumno);
 				alumno_creado = this.alumnoService.save(alumno);
 				responseEntity = ResponseEntity.status(HttpStatus.CREATED).body(alumno_creado);//201
 				
