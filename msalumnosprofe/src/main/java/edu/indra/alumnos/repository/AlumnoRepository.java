@@ -33,6 +33,16 @@ public interface AlumnoRepository extends CrudRepository<Alumno, Long>{
 		
 		
 	//4 PROCEDIMIENTOS ALMACENADOS
+		
+		//1 TENER EL PROCEDIMIENTO DEFINIDO EN BASE DE DATOS X 
+			// obtener los alumnos que se han dado de alta en el día de hoy 
+			//obtener los alumnos con nombre como
+			//obtener estadísticos de edad (max, min y media)
+		
+		//TODO
+			//2 REFERENCIAR LOS PROCEDIMIENTOS DESDE LA ENTIDAD DÁNDOLE UN NOMBRE "JAVA"
+			//3 LIGAR LOS MÉTODOS DEL PASO 2 CON MÉTODOS EN ALUMNO REPOSITORY @Procuder
+		
 	//5 CRITERIA API X
 
 }
