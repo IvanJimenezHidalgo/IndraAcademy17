@@ -9,6 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "alumnos")//esta clase la relacionamos con la tabla alumnos de la base de datos
@@ -18,9 +23,17 @@ public class Alumno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //autoinc en mysql
 	private Long id;//CLAVE PRIMARY 
 	
+	@Size(min = 3, max = 15)
 	private String nombre;
+	
+	@NotEmpty //esto que no sea null y tenga longitud > q 1
 	private String apellido;
+	
+	@Email
 	private String email;
+	
+	@Min(0)
+	@Max(130)
 	private int edad;
 	
 	@PrePersist//antes que se inserte un alumno en base datos, se ejecuta el método así anotado
