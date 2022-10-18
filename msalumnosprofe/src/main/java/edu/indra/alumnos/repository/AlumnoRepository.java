@@ -1,5 +1,6 @@
 package edu.indra.alumnos.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,17 @@ public interface AlumnoRepository extends CrudRepository<Alumno, Long>{
 	
 	
 	//2 JPQL ("AGNÓSTICO")
+		
+		@Query("SELECT a FROM Alumno a WHERE a.nombre LIKE %?1% OR a.apellido LIKE %?1%")
+		public Iterable<Alumno> busquedaPorNombreOApellidoJPQL (String patron);
+		
+		
 	//3 NATIVAS
+		
+		@Query(value = "SELECT * FROM alumnos a WHERE a.nombre LIKE %?1% OR a.apellido LIKE %?1%", nativeQuery = true)
+		public Iterable<Alumno> busquedaPorNombreOApellidoNativa (String patron);
+		
+		
 	//4 PROCEDIMIENTOS ALMACENADOS
 	//5 CRITERIA API X
 

@@ -2,6 +2,8 @@ package edu.indra.alumnos.service;
 
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Query;
+
 import edu.indra.alumnos.repository.entity.Alumno;
 
 //qué hace mi sistema
@@ -23,5 +25,9 @@ public interface AlumnoService {
 	public Iterable<Alumno> findByEdadBetween (int edad_min, int edad_max);
 	
 	public Iterable<Alumno> findByNombreContaining(String patron);
+	
+	public Iterable<Alumno> busquedaPorNombreOApellidoJPQL (String patron);
+	
+	public Iterable<Alumno> busquedaPorNombreOApellidoNativa (String patron);
 
 }

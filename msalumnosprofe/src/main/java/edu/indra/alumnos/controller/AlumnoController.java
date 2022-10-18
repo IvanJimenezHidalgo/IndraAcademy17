@@ -214,5 +214,27 @@ public class AlumnoController {
 	}
 	
 	
+	@GetMapping("/listarAlumnosPorNombreOApellidoJQPL/{patron}") ////GET http://localhost:8081/alumno/listarAlumnosPorNombreOApellidoJQPL/pepe
+	public ResponseEntity<?> listarAlumnosPorNombreOApellidoJQPL(@PathVariable String patron) {
+		ResponseEntity<?> responseEntity = null;
+		Iterable<Alumno> lista_alumnos = null;
+
+			lista_alumnos = this.alumnoService.busquedaPorNombreOApellidoJPQL(patron);
+			responseEntity = ResponseEntity.ok(lista_alumnos);
+
+		return responseEntity;
+	}
+	
+	@GetMapping("/listarAlumnosPorNombreOApellidoNativa/{patron}") ////GET http://localhost:8081/alumno/listarAlumnosPorNombreOApellidoNativa/pepe
+	public ResponseEntity<?> listarAlumnosPorNombreOApellidoNativa(@PathVariable String patron) {
+		ResponseEntity<?> responseEntity = null;
+		Iterable<Alumno> lista_alumnos = null;
+
+			lista_alumnos = this.alumnoService.busquedaPorNombreOApellidoNativa(patron);
+			responseEntity = ResponseEntity.ok(lista_alumnos);
+
+		return responseEntity;
+	}
+	
 
 }
