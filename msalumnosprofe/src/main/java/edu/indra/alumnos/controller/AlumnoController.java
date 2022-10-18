@@ -95,8 +95,19 @@ public class AlumnoController {
 	{
 		ResponseEntity<?> responseEntity = null;
 		
+		//try {
+			//var cadena = "HOLA"; //tipos inferenciados - var type inference java 11
+			//cadena.charAt(5);//unchecked o runtime excepction
+			
+			
 			this.alumnoService.deleteById(id);
 			responseEntity = ResponseEntity.ok().build();
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//			throw e;
+//		}
+			
 		
 		return responseEntity;
 		
