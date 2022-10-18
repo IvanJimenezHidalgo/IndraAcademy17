@@ -202,6 +202,17 @@ public class AlumnoController {
 		
 	}
 	
+	@GetMapping("/listarAlumnoPorPatron/{patron}") ////GET http://localhost:8081/alumno/listarAlumnoPorPatron/pepe
+	public ResponseEntity<?> listarAlumnoPorPatron(@PathVariable String patron) {
+		ResponseEntity<?> responseEntity = null;
+		Iterable<Alumno> lista_alumnos = null;
+
+			lista_alumnos = this.alumnoService.findByNombreContaining(patron);
+			responseEntity = ResponseEntity.ok(lista_alumnos);
+
+		return responseEntity;
+	}
+	
 	
 
 }

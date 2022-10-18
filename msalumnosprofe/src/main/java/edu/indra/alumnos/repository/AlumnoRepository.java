@@ -16,6 +16,7 @@ public interface AlumnoRepository extends CrudRepository<Alumno, Long>{
 		public Iterable<Alumno> findByEdadBetween (int edad_min, int edad_max);
 		
 		//1.2 obtener un listado de todos los alumnos cuyo nombre cumpla un patrón
+		public Iterable<Alumno> findByNombreContaining(String patron);
 	
 	
 	//2 JPQL ("AGNÓSTICO")
