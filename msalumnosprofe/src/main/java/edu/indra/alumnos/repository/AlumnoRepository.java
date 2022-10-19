@@ -1,7 +1,11 @@
 package edu.indra.alumnos.repository;
 
+import java.util.Map;
+
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import edu.indra.alumnos.repository.entity.Alumno;
@@ -40,8 +44,17 @@ public interface AlumnoRepository extends CrudRepository<Alumno, Long>{
 			//obtener estadísticos de edad (max, min y media)
 		
 		//TODO
-			//2 REFERENCIAR LOS PROCEDIMIENTOS DESDE LA ENTIDAD DÁNDOLE UN NOMBRE "JAVA"
-			//3 LIGAR LOS MÉTODOS DEL PASO 2 CON MÉTODOS EN ALUMNO REPOSITORY @Procuder
+			//2 REFERENCIAR LOS PROCEDIMIENTOS DESDE LA ENTIDAD DÁNDOLE UN NOMBRE "JAVA" X
+			//3 LIGAR LOS MÉTODOS DEL PASO 2 CON MÉTODOS EN ALUMNO REPOSITORY @Procedure
+		
+		@Procedure(name = "Alumno.alumnosRegistradosHoy" )
+		public Iterable<Alumno> procedimientoAlumnosAltaHoy ();
+		
+		@Procedure(name = "Alumno.alumnosNombreComo" )
+		public Iterable<Alumno> procedimientoAlumnosNombreComo (@Param("patron") String patron);
+		
+		@Procedure(name = "Alumno.alumnosEdadMediaMinMax" )
+		public Map<String, Number> procedimientoAlumnosEstadisticosEdad (int edadmax, int edadmin, float edadmedia);
 		
 	//5 CRITERIA API X
 

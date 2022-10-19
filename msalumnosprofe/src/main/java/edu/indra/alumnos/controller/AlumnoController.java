@@ -2,6 +2,7 @@ package edu.indra.alumnos.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -240,5 +241,48 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
+	
+	@GetMapping("/listarAlumnosAltaHoy") //GET http://localhost:8081/alumno/listarAlumnosAltaHoy
+	public ResponseEntity<?> listarAlumnosAltaHoy ()
+	{
+		ResponseEntity<?> responseEntity = null;
+		Iterable<Alumno> lista_alumnos = null;
+		
+				lista_alumnos = this.alumnoService.procedimientoAlumnosAltaHoy();
+				responseEntity = ResponseEntity.ok(lista_alumnos);
+				
+		
+		return responseEntity;
+		
+	}
+	
+	@GetMapping("/listarAlumnosNombreComoProc/{patron}") //GET http://localhost:8081/alumno/listarAlumnosNombreComoProc/patron
+	public ResponseEntity<?> listarAlumnosNombreComoProc (@PathVariable String patron)
+	{
+		ResponseEntity<?> responseEntity = null;
+		Iterable<Alumno> lista_alumnos = null;
+		
+				lista_alumnos = this.alumnoService.procedimientoAlumnosNombreComo(patron);
+				responseEntity = ResponseEntity.ok(lista_alumnos);
+				
+		
+		return responseEntity;
+		
+	}
+	
+	
+	@GetMapping("/obtenerEstadisticosEdad") //GET http://localhost:8081/alumno/obtenerEstadisticosEdad
+	public ResponseEntity<?> obtenerEstadisticosEdad ()
+	{
+		ResponseEntity<?> responseEntity = null;
+		Map<String, Number> mapa_estadisticas_edad = null;
+		
+				mapa_estadisticas_edad = this.alumnoService.procedimientoAlumnosEstadisticosEdad();
+				responseEntity = ResponseEntity.ok(mapa_estadisticas_edad);
+				
+		
+		return responseEntity;
+		
+	}
 
 }

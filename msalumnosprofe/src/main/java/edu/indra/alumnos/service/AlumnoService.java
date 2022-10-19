@@ -1,8 +1,11 @@
 package edu.indra.alumnos.service;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
 
 import edu.indra.alumnos.repository.entity.Alumno;
 
@@ -29,5 +32,12 @@ public interface AlumnoService {
 	public Iterable<Alumno> busquedaPorNombreOApellidoJPQL (String patron);
 	
 	public Iterable<Alumno> busquedaPorNombreOApellidoNativa (String patron);
+	
+	
+	public Iterable<Alumno> procedimientoAlumnosAltaHoy ();
+	
+	public Iterable<Alumno> procedimientoAlumnosNombreComo (String patron);
+	
+	public Map<String, Number> procedimientoAlumnosEstadisticosEdad ();
 
 }

@@ -1,5 +1,6 @@
 package edu.indra.alumnos.service;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -87,6 +88,25 @@ public class AlumnoServiceImpl implements AlumnoService {
 	@Transactional(readOnly = true)
 	public Iterable<Alumno> busquedaPorNombreOApellidoNativa(String patron) {
 		return this.alumnoRepository.busquedaPorNombreOApellidoNativa(patron);
+	}
+
+	@Override
+	@Transactional //ojo porque aunque los procedimientos No modifiquen la base de datos, hay que poner readOnly a falso!
+	public Iterable<Alumno> procedimientoAlumnosAltaHoy() {
+		
+		return this.alumnoRepository.procedimientoAlumnosAltaHoy();
+	}
+
+	@Override
+	@Transactional
+	public Iterable<Alumno> procedimientoAlumnosNombreComo(String patron) {
+		return this.alumnoRepository.procedimientoAlumnosNombreComo("%"+patron+"%");
+	}
+
+	@Override
+	@Transactional
+	public Map<String, Number> procedimientoAlumnosEstadisticosEdad() {
+		return this.alumnoRepository.procedimientoAlumnosEstadisticosEdad(0, 0, 0f);
 	}
 
 }

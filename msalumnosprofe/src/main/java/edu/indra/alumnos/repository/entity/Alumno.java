@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
 import javax.persistence.PrePersist;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -17,6 +21,21 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "alumnos")//esta clase la relacionamos con la tabla alumnos de la base de datos
+@NamedStoredProcedureQueries(
+		{
+			@NamedStoredProcedureQuery(name = "Alumno.alumnosEdadMediaMinMax" ,procedureName = "calcular_max_min_media_edad",
+					parameters = {
+							@StoredProcedureParameter(mode = ParameterMode.INOUT ,name="edadmax", type = Integer.class),
+							@StoredProcedureParameter(mode = ParameterMode.INOUT ,name="edadmin", type = Integer.class),
+							@StoredProcedureParameter(mode = ParameterMode.INOUT ,name="edadmedia", type = Float.class)
+					}),
+			@NamedStoredProcedureQuery(name = "Alumno.alumnosNombreComo", procedureName = "obtenerAlumnosConNombreComo", resultClasses = edu.indra.alumnos.repository.entity.Alumno.class,
+			parameters = {
+					@StoredProcedureParameter(mode = ParameterMode.IN, name ="patron", type = String.class)
+			}),
+			@NamedStoredProcedureQuery(name = "Alumno.alumnosRegistradosHoy", procedureName = "obtenerAlumnosRegistradosHoy", resultClasses = edu.indra.alumnos.repository.entity.Alumno.class)
+		}
+		)
 public class Alumno {
 	
 	@Id
