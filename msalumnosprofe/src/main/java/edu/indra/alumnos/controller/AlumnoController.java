@@ -10,7 +10,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -316,6 +318,38 @@ public class AlumnoController {
 		
 		return responseEntity;
 		
+	}
+	
+	@GetMapping("/obtenerAlumnosPaginadosPorOrdenAsc") //GET http://localhost:8081/alumno/obtenerAlumnosPaginadosPorOrdenAsc?pageNo=0&pageSize=3&sortBy=edad
+	public ResponseEntity<?> obtenerAlumnosPaginadosPorOrden (
+			@RequestParam(defaultValue = "0") Integer pageNo, 
+			@RequestParam(defaultValue = "10") Integer pageSize,
+			@RequestParam(defaultValue = "edad") String sortBy)
+	{
+		ResponseEntity<?> responseEntity = null;
+		Iterable<Alumno> lista_alumnos = null;
+			
+			Pageable paginable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).ascending());
+			lista_alumnos = this.alumnoService.getAllAlumnosPaginadosOrdenados(paginable);
+			responseEntity = ResponseEntity.ok(lista_alumnos);
+				
+		
+		return responseEntity;
+	}
+	//http://localhost:8081/alumno/obtenerAlumnosPaginadosPorOrdenVar?page=0&size=3&sort=nombre,edad,ASC SE PUEDE ORDENAR POR MÚLTIPLES ATRIBUTOS DE ESTA MANERA-- EN ESTA CASO ORDENA POR NOMBRE Y EDAD (SI ALTERAS EL ORDEN, POR EDAD Y NOMBRE)
+	@GetMapping("/obtenerAlumnosPaginadosPorOrdenVar") //GET http://localhost:8081/alumno/obtenerAlumnosPaginadosPorOrdenVar?page=0&size=3&sort=edad,nombre,ASC
+	public ResponseEntity<?> obtenerAlumnosPaginadosPorOrden2 (
+			Pageable paginable)
+	{
+		ResponseEntity<?> responseEntity = null;
+		Iterable<Alumno> lista_alumnos = null;
+			
+			
+			lista_alumnos = this.alumnoService.getAllAlumnosPaginadosOrdenados(paginable);
+			responseEntity = ResponseEntity.ok(lista_alumnos);
+				
+		
+		return responseEntity;
 	}
 
 }

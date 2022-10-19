@@ -46,5 +46,8 @@ public interface AlumnoService {
 	public Page<Alumno> findAll (Pageable pageable);//consultar todos
 	
 	public Page<Alumno> findByEdadBetween (int edad_min, int edad_max, Pageable pageable);
+	
+	
+	public Page<Alumno> getAllAlumnosPaginadosOrdenados(Pageable pageable);
 
 }

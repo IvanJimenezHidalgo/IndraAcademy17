@@ -123,4 +123,10 @@ public class AlumnoServiceImpl implements AlumnoService {
 		return this.alumnoRepository.findByEdadBetween(edad_min, edad_max, pageable);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Alumno> getAllAlumnosPaginadosOrdenados(Pageable pageable) {
+		return this.alumnoRepository.findAll(pageable);
+	}
+
 }
