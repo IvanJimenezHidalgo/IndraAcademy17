@@ -12,3 +12,9 @@ fetch("http://localhost:8081/alumno")
   console.log ('Aquí la vuelta con JS Normal');
   console.log('Hubo un problema con la petición Fetch:' + error.message);
 });
+
+function mifuncion (cadena_json)
+{
+	console.log ('Aquí la repuesta con JSONP');
+	console.log (cadena_json);//este sera el alumno
+}

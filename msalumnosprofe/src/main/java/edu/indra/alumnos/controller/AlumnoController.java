@@ -29,7 +29,7 @@ import edu.indra.alumnos.repository.entity.Alumno;
 import edu.indra.alumnos.service.AlumnoService;
 
 
-@CrossOrigin(originPatterns = {"*"}, methods = {RequestMethod.GET})
+//@CrossOrigin(originPatterns = {"*"}, methods = {RequestMethod.GET})
 @RestController
 @RequestMapping("/alumno")
 public class AlumnoController {
