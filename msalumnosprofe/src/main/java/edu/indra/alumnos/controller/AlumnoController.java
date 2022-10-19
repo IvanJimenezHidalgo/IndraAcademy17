@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -279,6 +280,38 @@ public class AlumnoController {
 		
 				mapa_estadisticas_edad = this.alumnoService.procedimientoAlumnosEstadisticosEdad();
 				responseEntity = ResponseEntity.ok(mapa_estadisticas_edad);
+				
+		
+		return responseEntity;
+		
+	}
+	
+	@GetMapping("/pagina") //GET http://localhost:8081/alumno/pagina?page=1&size=3
+	public ResponseEntity<?> obtenerPaginaAlumnos (Pageable pageable)
+	{
+		ResponseEntity<?> responseEntity = null;
+		Iterable<Alumno> pagina_alumnos = null;
+		
+			pagina_alumnos = this.alumnoService.findAll(pageable);
+			responseEntity = ResponseEntity.ok(pagina_alumnos);
+		
+
+		return responseEntity;
+		
+	}
+	
+	
+	@GetMapping("/listarAlumnoRangoEdadPaginado") //GET http://localhost:8081/alumno/listarAlumnoRangoEdadPaginado?edadmin=5&edadmax=10&page=0&size=3
+	public ResponseEntity<?> listarAlumnoRangoEdadPaginado (
+			@RequestParam(required = true, name = "edadmin") int edadmin, 
+			@RequestParam(required = true, name = "edadmax") int edadmax,
+			Pageable pageable)
+	{
+		ResponseEntity<?> responseEntity = null;
+		Iterable<Alumno> lista_alumnos = null;
+		
+				lista_alumnos = this.alumnoService.findByEdadBetween(edadmin, edadmax, pageable);
+				responseEntity = ResponseEntity.ok(lista_alumnos);
 				
 		
 		return responseEntity;

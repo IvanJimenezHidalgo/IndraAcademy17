@@ -2,16 +2,21 @@ package edu.indra.alumnos.repository;
 
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import edu.indra.alumnos.repository.entity.Alumno;
 
 @Repository
-public interface AlumnoRepository extends CrudRepository<Alumno, Long>{
+//public interface AlumnoRepository extends CrudRepository<Alumno, Long>
+public interface AlumnoRepository extends PagingAndSortingRepository<Alumno, Long>{
+
 	
 	//MÉTODOS ALTERNATIVOS DE ACCESO A DATOS
 	
@@ -22,6 +27,10 @@ public interface AlumnoRepository extends CrudRepository<Alumno, Long>{
 		
 		//1.2 obtener un listado de todos los alumnos cuyo nombre cumpla un patrón
 		public Iterable<Alumno> findByNombreContaining(String patron);
+		
+	
+		//1.3 obtener un listado de todos los alumnos en un determinado rango de edad por paginas
+		public Page<Alumno> findByEdadBetween (int edad_min, int edad_max, Pageable pageable);
 	
 	
 	//2 JPQL ("AGNÓSTICO")
