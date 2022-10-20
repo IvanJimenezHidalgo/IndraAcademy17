@@ -134,5 +134,22 @@ public class Alumno {
 	}
 	
 	
+	@Override
+	public boolean equals(Object obj) {
+		boolean iguales = false;
+		
+			if (this==obj)
+			{
+				iguales=true;
+			} else if (obj instanceof Alumno) //(obj instanceof Alumno alumno) https://docs.oracle.com/en/java/javase/14/language/pattern-matching-instanceof-operator.html
+			{
+				Alumno alumno = (Alumno)obj;
+				iguales = ((this.id!=null) && (this.id.equals(alumno.id)));
+			} /*else {// opcional por inicializarlo a false
+				iguales = false;
+			}*/
+		
+		return iguales;
+	}
 
 }
