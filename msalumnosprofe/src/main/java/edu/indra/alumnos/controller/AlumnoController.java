@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -44,6 +46,12 @@ public class AlumnoController {
 	
 	Logger log = LoggerFactory.getLogger(AlumnoController.class);
 	
+	@Value("${instancia}")
+	String nombre_instacia;
+	
+	@Autowired
+	Environment environment;
+	
 	//OBTENER TODOS LOS ALUMNOS -get x
 	//OBTENER UN ALUMNO POR ID -get x
 	//INSERTAR ALUMNO - post x
@@ -67,6 +75,9 @@ public class AlumnoController {
 		ResponseEntity<?> responseEntity = null;
 		Iterable<Alumno> listado_alumnos = null;
 		
+				log.debug("en listarAlumnos ()");
+				log.debug("ATENDIDO POR LA INSNTACIA "+ nombre_instacia );
+				log.debug("ATENDIDO EN EL PUERTO "+ this.environment.getProperty("local.server.port"));
 				listado_alumnos = this.alumnoService.findAll();
 				responseEntity = ResponseEntity.ok(listado_alumnos);
 		
