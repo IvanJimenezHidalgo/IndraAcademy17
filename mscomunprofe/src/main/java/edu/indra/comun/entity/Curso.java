@@ -1,6 +1,7 @@
-package edu.indra.cursos.repository.entity;
+package edu.indra.comun.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "cursos")
@@ -19,6 +21,8 @@ public class Curso {
 	private Long id;
 	
 	private String nombre;
+	
+	//private List<Alumno> alumnos;
 	
 	@PrePersist//antes que se inserte un alumno en base datos, se ejecuta el método así anotado
 	private void generarFechaCreacion ()

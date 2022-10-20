@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 import edu.indra.alumnos.model.FraseChuckNorris;
-import edu.indra.alumnos.repository.entity.Alumno;
+import edu.indra.comun.entity.Alumno;
 
 //qué hace mi sistema
 //abmc alumnos

@@ -11,7 +11,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import edu.indra.alumnos.repository.entity.Alumno;
+import edu.indra.comun.entity.Alumno;
 
 @Repository
 //public interface AlumnoRepository extends CrudRepository<Alumno, Long>
