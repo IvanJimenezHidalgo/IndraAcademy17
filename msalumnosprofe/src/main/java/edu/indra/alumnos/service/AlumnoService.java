@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
+import edu.indra.alumnos.model.FraseChuckNorris;
 import edu.indra.alumnos.repository.entity.Alumno;
 
 //qué hace mi sistema
@@ -35,19 +36,18 @@ public interface AlumnoService {
 	
 	public Iterable<Alumno> busquedaPorNombreOApellidoNativa (String patron);
 	
-	
 	public Iterable<Alumno> procedimientoAlumnosAltaHoy ();
 	
 	public Iterable<Alumno> procedimientoAlumnosNombreComo (String patron);
 	
 	public Map<String, Number> procedimientoAlumnosEstadisticosEdad ();
 	
-	
 	public Page<Alumno> findAll (Pageable pageable);//consultar todos
 	
 	public Page<Alumno> findByEdadBetween (int edad_min, int edad_max, Pageable pageable);
 	
-	
 	public Page<Alumno> getAllAlumnosPaginadosOrdenados(Pageable pageable);
+	
+	public Optional<FraseChuckNorris> obtenerFraseAlatoriaChuckNorrris ();
 
 }

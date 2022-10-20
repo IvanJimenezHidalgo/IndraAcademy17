@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.indra.alumnos.model.FraseChuckNorris;
 import edu.indra.alumnos.repository.entity.Alumno;
 import edu.indra.alumnos.service.AlumnoService;
 
@@ -361,6 +362,27 @@ public class AlumnoController {
 				
 		
 		return responseEntity;
+	}
+	
+	
+	@GetMapping("/obtenerFraseChuckNorris") //GET http://localhost:8081/alumno/obtenerFraseChuckNorris
+	public ResponseEntity<?> obtenerFraseChuckNorris ()
+	{
+		ResponseEntity<?> responseEntity = null;
+		Optional<FraseChuckNorris> o_frase = null;
+		
+				o_frase = this.alumnoService.obtenerFraseAlatoriaChuckNorrris();
+				if (o_frase.isPresent())
+				{
+					FraseChuckNorris fraseChuckNorris = o_frase.get();
+					responseEntity = ResponseEntity.ok(fraseChuckNorris);
+				} else {
+					responseEntity = ResponseEntity.noContent().build();//204
+				}
+				
+		
+		return responseEntity;
+		
 	}
 
 }

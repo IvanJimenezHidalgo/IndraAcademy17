@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import edu.indra.alumnos.model.FraseChuckNorris;
 import edu.indra.alumnos.repository.AlumnoRepository;
 import edu.indra.alumnos.repository.entity.Alumno;
 
@@ -127,6 +129,19 @@ public class AlumnoServiceImpl implements AlumnoService {
 	@Transactional(readOnly = true)
 	public Page<Alumno> getAllAlumnosPaginadosOrdenados(Pageable pageable) {
 		return this.alumnoRepository.findAll(pageable);
+	}
+
+	@Override
+	public Optional<FraseChuckNorris> obtenerFraseAlatoriaChuckNorrris() {
+		Optional<FraseChuckNorris> optional = Optional.empty();
+		FraseChuckNorris fraseChuckNorris = null;
+		RestTemplate restTemplate = null;
+		
+			restTemplate = new RestTemplate ();
+			fraseChuckNorris = restTemplate.getForObject("https://api.chucknorris.io/jokes/random", FraseChuckNorris.class);
+			optional = Optional.of(fraseChuckNorris);
+			
+		return optional;
 	}
 
 }
