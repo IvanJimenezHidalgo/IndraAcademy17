@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import edu.indra.alumnos.model.FraseChuckNorris;
 import edu.indra.comun.entity.Alumno;
+import edu.indra.comun.entity.Curso;
 
 //qué hace mi sistema
 //abmc alumnos
@@ -49,5 +51,7 @@ public interface AlumnoService {
 	public Page<Alumno> getAllAlumnosPaginadosOrdenados(Pageable pageable);
 	
 	public Optional<FraseChuckNorris> obtenerFraseAlatoriaChuckNorrris ();
+	
+	public Optional<Curso> obtenerCursoAlumno (Long idalumno);
 
 }

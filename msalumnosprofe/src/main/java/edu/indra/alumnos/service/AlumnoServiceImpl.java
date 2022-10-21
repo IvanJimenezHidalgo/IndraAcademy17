@@ -3,6 +3,8 @@ package edu.indra.alumnos.service;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,16 +13,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import edu.indra.alumnos.cliente.CursoFeignClient;
 import edu.indra.alumnos.model.FraseChuckNorris;
 import edu.indra.alumnos.repository.AlumnoRepository;
 import edu.indra.comun.entity.Alumno;
+import edu.indra.comun.entity.Curso;
 
 @Service
 public class AlumnoServiceImpl implements AlumnoService {
 	
 	@Autowired
 	AlumnoRepository alumnoRepository;
+	
+	@Autowired
+	CursoFeignClient cursoFeignClient;
 
+	Logger log = LoggerFactory.getLogger(AlumnoService.class);
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -141,6 +149,38 @@ public class AlumnoServiceImpl implements AlumnoService {
 			fraseChuckNorris = restTemplate.getForObject("https://api.chucknorris.io/jokes/random", FraseChuckNorris.class);
 			optional = Optional.of(fraseChuckNorris);
 			
+		return optional;
+	}
+
+	@Override
+	public Optional<Curso> obtenerCursoAlumno(Long idalumno) {
+		Optional<Curso> optional = Optional.empty();
+		Curso curso = null;
+		
+		try {
+			
+		
+			//HACEMOS UNA INSERCCIÓN - FASE 1 - ESTADO PARCIAL - PENDIENTE
+			log.debug("FASE 1 COMPLETADA PARCIALMENTE");
+			optional  = this.cursoFeignClient.obtenerCursoAlumno(idalumno);
+			if (optional.isPresent())
+			{
+				curso = optional.get();
+				log.debug("Alumno asignado a un curso " +curso);
+			} else {
+				log.debug("El Alumno no está asignado a ningún curso");
+			}
+			//HARÍ FASE 2 - MARCAR LA OPERACIÓN COMPLETADA
+			log.debug("FASE 2 COMPLETADA");
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			//DESHACER LA FASE 1 - BORRO
+			log.error("ERROR EN EL MS DE CURSOS", e);
+			log.debug("FASE 1 ABORTADA");
+			throw e;
+		}
+		
 		return optional;
 	}
 

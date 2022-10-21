@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.indra.alumnos.model.FraseChuckNorris;
 import edu.indra.alumnos.service.AlumnoService;
 import edu.indra.comun.entity.Alumno;
+import edu.indra.comun.entity.Curso;
 
 
 //@CrossOrigin(originPatterns = {"*"}, methods = {RequestMethod.GET})
@@ -376,6 +377,26 @@ public class AlumnoController {
 				{
 					FraseChuckNorris fraseChuckNorris = o_frase.get();
 					responseEntity = ResponseEntity.ok(fraseChuckNorris);
+				} else {
+					responseEntity = ResponseEntity.noContent().build();//204
+				}
+				
+		
+		return responseEntity;
+		
+	}
+	
+	@GetMapping("/obtenerCursoAlumnoViaFeign/{idalumno}") //GET http://localhost:8081/alumno/obtenerCursoAlumnoViaFeign/1
+	public ResponseEntity<?> obtenerCursoAlumnoViaFeign (@PathVariable Long idalumno)
+	{
+		ResponseEntity<?> responseEntity = null;
+		Optional<Curso> o_curso = null;
+		
+				o_curso = this.alumnoService.obtenerCursoAlumno(idalumno);
+				if (o_curso.isPresent())
+				{
+					Curso curso_alumno = o_curso.get();
+					responseEntity = ResponseEntity.ok(curso_alumno);
 				} else {
 					responseEntity = ResponseEntity.noContent().build();//204
 				}
