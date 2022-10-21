@@ -1,5 +1,6 @@
 package edu.indra.alumnos.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -30,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.indra.alumnos.model.FraseChuckNorris;
 import edu.indra.alumnos.service.AlumnoService;
@@ -152,6 +157,70 @@ public class AlumnoController {
 		
 	}
 	
+	@PostMapping("/crear-con-foto") //POST http://localhost:8081/alumno/crear-con-foto
+	public ResponseEntity<?> insertarAlumnoConFoto (@Valid Alumno alumno, BindingResult bindingResult, MultipartFile archivo) throws IOException
+	{
+		ResponseEntity<?> responseEntity = null;
+		Alumno alumno_creado = null;
+		
+			//TODO validación de negocio 
+			log.debug("en insertarAlumno");
+		
+			if (bindingResult.hasErrors())
+			{
+				//el alumno trae errores
+				log.debug("el alumno trae errores " +alumno);
+				responseEntity = obtenerErrores (bindingResult);
+				
+			} else {
+				//alumno sin errores
+				
+				if (!archivo.isEmpty())
+				{
+					try {
+						alumno.setFoto(archivo.getBytes());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						log.error("error al acceder al alumno con foto ",e );
+						throw e;
+					}
+				}
+				log.debug("alumno sin errores " +alumno);
+				alumno_creado = this.alumnoService.save(alumno);
+				responseEntity = ResponseEntity.status(HttpStatus.CREATED).body(alumno_creado);//201
+				
+				
+			}
+		
+			
+			
+		
+		return responseEntity;
+		
+	}
+	
+	@GetMapping("/obtenerFoto/{id}") //GET http://localhost:8081/alumno/1
+	public ResponseEntity<?> obtenerFoto (@PathVariable Long id)
+	{
+		ResponseEntity<?> responseEntity = null;
+		Optional<Alumno> o_alumno = null;
+		Resource imagen = null;
+		
+				o_alumno = this.alumnoService.findById(id);
+				if (o_alumno.isPresent()&&o_alumno.get().getFotoHashCode()!=null)
+				{
+					Alumno alumno_leido = o_alumno.get();
+					imagen = new ByteArrayResource(alumno_leido.getFoto());
+					responseEntity = ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imagen);
+				} else {
+					responseEntity = ResponseEntity.noContent().build();//204
+				}
+				
+		
+		return responseEntity;
+		
+	}
+	
 	
 	@DeleteMapping("/{id}") //DELETE http://localhost:8081/alumno/1
 	public ResponseEntity<?> borrarAlumno (@PathVariable Long id)
@@ -199,13 +268,46 @@ public class AlumnoController {
 				responseEntity = ResponseEntity.notFound().build();//404
 			}
 		}
-		
-				
-				
-		
 		return responseEntity;
-		
 	}
+	
+	@PutMapping("/editar-con-foto/{id}") //PUT http://localhost:8081/alumno/editar-con-foto/1
+	public ResponseEntity<?> modificarAlumno (@Valid Alumno alumno, BindingResult bindingResult, @PathVariable Long id, MultipartFile archivo) throws IOException
+	{
+		ResponseEntity<?> responseEntity = null;
+		Optional<Alumno> o_alumno = null;
+		
+		if (bindingResult.hasErrors())
+		{
+			//tiene errores
+			responseEntity = obtenerErrores (bindingResult);
+			
+		} else {
+			//alumno sin errores
+			
+			if (!archivo.isEmpty())
+			{
+				try {
+					alumno.setFoto(archivo.getBytes());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					log.error("error al modificar el alumno con foto ",e );
+					throw e;
+				}
+			}
+			
+			o_alumno = this.alumnoService.update(alumno, id);
+			if (o_alumno.isPresent())
+			{
+				Alumno alumno_leido = o_alumno.get();
+				responseEntity = ResponseEntity.ok(alumno_leido);
+			} else {
+				responseEntity = ResponseEntity.notFound().build();//404
+			}
+		}
+		return responseEntity;
+	}
+	
 	
 	@GetMapping("/listarAlumnoRangoEdad") //GET http://localhost:8081/alumno/listarAlumnoRangoEdad?edadmin=5&edadmax=10
 	public ResponseEntity<?> listarAlumnoRangoEdad (

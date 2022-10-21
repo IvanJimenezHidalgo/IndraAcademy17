@@ -89,6 +89,10 @@ public class Curso {
 		this.alumnos = alumnos;
 	}
 
+	public int getNumAlumnos ()
+	{
+		return this.alumnos.size();
+	}
 	
 	public void addAlumno (Alumno alumno)
 	{

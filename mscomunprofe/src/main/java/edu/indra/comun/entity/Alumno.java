@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.ParameterMode;
@@ -18,6 +19,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "alumnos")//esta clase la relacionamos con la tabla alumnos de la base de datos
@@ -51,6 +54,31 @@ public class Alumno {
 	@Email
 	private String email;
 	
+	@Lob
+	@JsonIgnore//evito que la foto se serialce en la respuesta JSON
+	private byte[] foto;
+	
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+	
+	public Integer getFotoHashCode ()
+	{
+		Integer idev = null;
+		
+			if (this.foto!=null)
+			{
+				//tiene foto
+				idev = this.foto.hashCode();
+			} //else, devuelvo NULL
+		
+		return idev;
+	}
+
 	@Min(0)
 	@Max(130)
 	private int edad;
