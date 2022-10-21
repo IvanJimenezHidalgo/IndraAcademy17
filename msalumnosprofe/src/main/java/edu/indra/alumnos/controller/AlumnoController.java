@@ -156,7 +156,8 @@ public class AlumnoController {
 		return responseEntity;
 		
 	}
-	
+	//http://localhost:8090/api/alumnos/crear-con-foto
+	//http://localhost:8082/alumno/crear-con-foto
 	@PostMapping("/crear-con-foto") //POST http://localhost:8081/alumno/crear-con-foto
 	public ResponseEntity<?> insertarAlumnoConFoto (@Valid Alumno alumno, BindingResult bindingResult, MultipartFile archivo) throws IOException
 	{
