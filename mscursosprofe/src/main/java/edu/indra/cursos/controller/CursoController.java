@@ -155,5 +155,25 @@ public class CursoController {
 		
 	}
 
+	
+	@GetMapping("/obtenerCursoAlumno/{idalumno}") //GET http://localhost:8081/curso/obtenerCursoAlumno/1
+	public ResponseEntity<?> obtenerCursoAlumno (@PathVariable Long idalumno)
+	{
+		ResponseEntity<?> responseEntity = null;
+		Optional<Curso> o_curso = null;
+		
+				o_curso = this.cursoService.cursoAlumno(idalumno);
+				if (o_curso.isPresent())
+				{
+					Curso curso_alumno = o_curso.get();
+					responseEntity = ResponseEntity.ok(curso_alumno);
+				} else {
+					responseEntity = ResponseEntity.noContent().build();//204
+				}
+				
+		
+		return responseEntity;
+		
+	}
 
 }

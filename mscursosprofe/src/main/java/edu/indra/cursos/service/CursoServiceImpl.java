@@ -94,5 +94,13 @@ public class CursoServiceImpl implements CursoService{
 		
 		return optional;
 	}
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<Curso> cursoAlumno (Long id_alumno)
+	{
+		return this.cursoRespository.cursosAlumnoJPQL(id_alumno);
+	}
 
 }

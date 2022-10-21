@@ -23,4 +23,6 @@ public interface CursoService {
 	public Optional<Curso> asignarAlumnos (List<Alumno> alumnos, Long id);//modificar
 	
 	public Optional<Curso> eliminarAlumno (Alumno alumno, Long id);//modificar
+	
+	public Optional<Curso> cursoAlumno (Long id_alumno);
 }
